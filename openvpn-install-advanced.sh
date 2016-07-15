@@ -314,13 +314,13 @@ else
 	do
 	clear
 	echo "What size do you want your key to be? :"
-	echo "     1) 2048bits"
+	echo "     1) 1024bits"
 	echo "     2) 4096bits"
 	echo ""
 	read -p "Key Size [1-2]: " -e -i 1 KEYSIZE
 	case $KEYSIZE in
 		1)
-			KEYSIZE=2048
+			KEYSIZE=1024
 			break
 		;;
 		2)
@@ -364,7 +364,7 @@ else
          echo "Choosing AES will decrease CPU usage."
          fi
 	 echo "Which cipher do you want to use? :"
-	 echo "     1) AES-256-CBC"
+	 echo "     1) AES-256-GCM"
 	 echo "     2) AES-128-CBC"
 	 echo "     3) BF-CBC"
 	 echo "     4) CAMELLIA-256-CBC"
@@ -372,7 +372,7 @@ else
 	 echo ""
 	read -p "Cipher [1-5]: " -e -i 1 CIPHER
 	 case $CIPHER in
-	    1) CIPHER=AES-256-CBC
+	    1) CIPHER=AES-256-GCM
 		 break ;;
 		2) CIPHER=AES-128-CBC
          break ;;
@@ -544,7 +544,7 @@ iptables -t nat -A PREROUTING -i tun+ -p tcp --dport 80 -j REDIRECT --to-port 80
 	./easyrsa init-pki
 	cp vars.example vars
 
-	sed -i 's/#set_var EASYRSA_KEY_SIZE	2048/set_var EASYRSA_KEY_SIZE   '$KEYSIZE'/' vars #change key size to desired size
+	sed -i 's/#set_var EASYRSA_KEY_SIZE	1024/set_var EASYRSA_KEY_SIZE   '$KEYSIZE'/' vars #change key size to desired size
 	./easyrsa --batch build-ca nopass
 	./easyrsa gen-dh
 	./easyrsa build-server-full server nopass
